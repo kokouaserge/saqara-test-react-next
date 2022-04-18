@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import classnames from 'classnames';
-import { usePagination, DOTS } from 'hooks/index';
+import { usePagination, DOTS } from 'hooks/usePaginate';
+import { v4 as uuidv4 } from 'uuid';
 
 interface PaginateProps {
   onPageChange?: (count: number) => void;
@@ -41,27 +42,40 @@ const Pagination: FC<PaginateProps> = ({
   let lastPage = paginationRange[paginationRange.length - 1];
   return (
     <ul
-      className={classnames('pagination-container', { [className]: className })}
+      className={classnames('pagination-container ', {
+        [className]: className
+      })}
     >
       <li
-        className={classnames('pagination-item', {
+        className={classnames('pagination-item ', {
           disabled: currentPage === 1
         })}
         onClick={onPrevious}
       >
-        <div className="arrow left" />
+        <div className="arrow left " />
       </li>
       {paginationRange.map((pageNumber: any) => {
         if (pageNumber === DOTS) {
-          return <li className="pagination-item dots">&#8230;</li>;
+          return (
+            <li
+              className="pagination-item dots dark:text-neutral-300 hover:text-black dark:hover:text-white"
+              key={uuidv4()}
+            >
+              &#8230;
+            </li>
+          );
         }
 
         return (
           <li
-            className={classnames('pagination-item', {
-              selected: pageNumber === currentPage
-            })}
+            className={classnames(
+              'pagination-item dark:text-neutral-300 hover:text-black dark:hover:text-white',
+              {
+                selected: pageNumber === currentPage
+              }
+            )}
             onClick={() => onPageChange(pageNumber)}
+            key={uuidv4()}
           >
             {pageNumber}
           </li>

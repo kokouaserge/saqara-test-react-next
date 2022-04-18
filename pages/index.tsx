@@ -1,38 +1,51 @@
 import React, { FC } from 'react';
 import type { GetStaticProps } from 'next';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
-import { fetchPokemonGenerations } from 'hooks/index';
+import { QueryClient, dehydrate } from 'react-query';
+import { fetchGenerations, useGenerations } from 'hooks/useGenerations';
 import SectionGridGenerationBox from 'components/SectionGridGenerationBox/SectionGridGenerationBox';
+import Head from 'next/head';
+import Error from 'components/Error/Error';
+import Loading from 'components/Loading/Loading';
 
 export interface PageHomeProps {
   className?: string;
 }
 
 const Home: FC<PageHomeProps> = ({ className = '' }) => {
-  const { isSuccess, data, isLoading, isError } = useQuery(
-    ['getPokemonGenerations'],
-    () => fetchPokemonGenerations()
-  );
+  const { isSuccess, data, isLoading, isError } = useGenerations();
 
   const renderSection = () => {
     if (isLoading) {
-      return <div style={{ margin: 'auto' }}>Chargement...</div>;
+      return (
+        <Loading
+          message="Veuillez patienter nous récuperons les informations sur la génération"
+          title="chargement des informations"
+        />
+      );
     }
 
     if (isError) {
       return (
-        <div style={{ margin: 'auto' }}>
-          Nous n'avons pas pu récupérer la liste des générations des pokemons
-          vérifié votre réseau
-          <span role="img" aria-label="sad">
-            😢
-          </span>
-        </div>
+        <Error
+          message="Nous n'avons pas pu récupérer la liste des générations des pokemons
+          vérifié votre réseau"
+          title="Générations non trouvées"
+        />
       );
     }
 
     if (isSuccess) {
-      return <SectionGridGenerationBox generations={data.results} />;
+      return (
+        <>
+          <Head>
+            <title>
+              Saqara | Bienvenue sur la page d'accueil avec toutes les
+              générations{' '}
+            </title>
+          </Head>
+          <SectionGridGenerationBox generations={data.results} />
+        </>
+      );
     }
   };
 
@@ -53,9 +66,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['getPokemonGenerations'], () =>
-    fetchPokemonGenerations()
-  );
+  await queryClient.prefetchQuery(['getGenerations'], () => fetchGenerations());
 
   return {
     props: {

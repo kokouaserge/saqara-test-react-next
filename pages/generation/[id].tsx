@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
 import type { GetStaticProps, GetStaticPaths } from 'next';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
+import { QueryClient, dehydrate } from 'react-query';
 import { useRouter } from 'next/router';
-import { fetchGeneration } from 'hooks/index';
+import { fetchGeneration, useGeneration } from 'hooks/useGeneration';
 import SectionPokemonList from 'components/SectionPokemonList/SectionPokemonList';
+import Head from 'next/head';
+import Error from 'components/Error/Error';
+import Loading from 'components/Loading/Loading';
 
 export interface PageGenerationProps {
   className?: string;
@@ -28,14 +31,7 @@ const Generation: FC<PageGenerationProps> = ({ className = '' }) => {
     data: generation,
     isLoading,
     isError
-  } = useQuery(
-    ['getGeneration', generationID],
-    () => fetchGeneration(generationID),
-    {
-      enabled: generationID.length > 0,
-      staleTime: Infinity
-    }
-  );
+  } = useGeneration(generationID);
 
   const renderSidebar = (generation: GenerationItem) => {
     return (
@@ -122,23 +118,29 @@ const Generation: FC<PageGenerationProps> = ({ className = '' }) => {
 
   const renderSection = () => {
     if (isLoading) {
-      return <div style={{ margin: 'auto' }}>Chargement...</div>;
+      return (
+        <Loading
+          message="Veuillez patienter nous récuperons les informations sur la génération"
+          title="chargement des informations"
+        />
+      );
     }
 
     if (isError) {
       return (
-        <div style={{ margin: 'auto' }}>
-          Désolé la génération n'a pas été trouvée{' '}
-          <span role="img" aria-label="sad">
-            😢
-          </span>
-        </div>
+        <Error
+          message="Désolé la génération n'a pas été trouvée"
+          title="Génération non trouvée"
+        />
       );
     }
 
     if (isSuccess) {
       return (
         <>
+          <Head>
+            <title>Saqara | Détails sur la génération {generation.name} </title>
+          </Head>
           <div className="block flex-grow mb-24 lg:mb-0">
             <div className="lg:sticky lg:top-24">
               {renderSidebar(generation)}

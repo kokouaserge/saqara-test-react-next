@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
 import type { GetStaticProps, GetStaticPaths } from 'next';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
+import { QueryClient, dehydrate } from 'react-query';
 import { useRouter } from 'next/router';
-import { fetchPokemon } from 'hooks/index';
+import { usePokemon, fetchPokemon } from 'hooks/usePokemon';
 import ButtonSecondary from 'shared/Button/ButtonSecondary';
 import CardPokemonDetails from 'components/CardPokemonDetails/CardPokemonDetails';
+import Head from 'next/head';
+import Error from 'components/Error/Error';
+import Loading from 'components/Loading/Loading';
 
 export interface PagePokemonProps {
   className?: string;
@@ -19,55 +22,64 @@ const Pokemon: FC<PagePokemonProps> = ({ className = '' }) => {
     data: pokemon,
     isLoading,
     isError
-  } = useQuery(['getPokemon', pokemonName], () => fetchPokemon(pokemonName), {
-    enabled: pokemonName.length > 0,
-    staleTime: Infinity
-  });
+  } = usePokemon(pokemonName);
 
   const renderSection = () => {
     if (isLoading) {
-      return <div style={{ margin: 'auto' }}>Chargement...</div>;
+      return (
+        <Loading
+          message="Veuillez patienter nous récuperons les informations sur le pokemon"
+          title="chargement des informations"
+        />
+      );
     }
 
     if (isError) {
       return (
-        <div style={{ margin: 'auto' }}>
-          Désolé le pokemon n'a pas été trouvé{' '}
-          <span role="img" aria-label="sad">
-            😢
-          </span>
-        </div>
+        <Error
+          message="Désolé le pokemon n'a pas été trouvé"
+          title="Pokemon non trouvé"
+        />
       );
     }
 
     if (isSuccess) {
       return (
-        <div className="space-y-11">
-          <div>
-            <span className="text-4xl font-semibold">
-              Détails du Pokemon {pokemon.name}
-            </span>
-          </div>
+        <>
+          <Head>
+            <title>Saqara | Détails sur le pokemon {pokemon.name} </title>
+          </Head>
+          <div className="space-y-11">
+            <div>
+              <span className="text-4xl font-semibold">
+                Détails du Pokemon {pokemon.name}
+              </span>
+            </div>
 
-          {/* --------------------- */}
-          <CardPokemonDetails
-            name={pokemon.name}
-            image={pokemon.sprites?.other?.['official-artwork']?.front_default}
-            weight={pokemon.weight}
-            xp={pokemon.base_experience}
-            abilities={pokemon.abilities?.map((item: any) => item.ability.name)}
-            hp={pokemon.stats[0].base_stat}
-            attaque={pokemon.stats[1].base_stat}
-            defense={pokemon.stats[2].base_stat}
-            special={pokemon.stats[3].base_stat}
-          />
-          {/* --------------------- */}
-          <div className="flex justify-end space-x-5">
-            <ButtonSecondary onClick={() => router.back()}>
-              Retour
-            </ButtonSecondary>
+            {/* --------------------- */}
+            <CardPokemonDetails
+              name={pokemon.name}
+              image={
+                pokemon.sprites?.other?.['official-artwork']?.front_default
+              }
+              weight={pokemon.weight}
+              xp={pokemon.base_experience}
+              abilities={pokemon.abilities?.map(
+                (item: any) => item.ability.name
+              )}
+              hp={pokemon.stats[0].base_stat}
+              attaque={pokemon.stats[1].base_stat}
+              defense={pokemon.stats[2].base_stat}
+              special={pokemon.stats[3].base_stat}
+            />
+            {/* --------------------- */}
+            <div className="flex justify-end space-x-5">
+              <ButtonSecondary onClick={() => router.back()}>
+                Retour
+              </ButtonSecondary>
+            </div>
           </div>
-        </div>
+        </>
       );
     }
   };

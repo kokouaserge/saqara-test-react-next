@@ -2,6 +2,7 @@ import CardGenerationBox from 'components/CardGenerationBox/CardGenerationBox';
 import Heading from 'components/Heading/Heading';
 import React, { FC } from 'react';
 import { Default } from 'hooks/type';
+import { v4 as uuidv4 } from 'uuid';
 
 interface SectionGridGenerationBoxProps {
   className?: string;
@@ -24,7 +25,7 @@ const SectionGridGenerationBox: FC<SectionGridGenerationBoxProps> = ({
         {generations.map((generation, index) => (
           <CardGenerationBox
             index={index + 1}
-            key={generation.name + '-' + index}
+            key={uuidv4()}
             generation={generation}
           />
         ))}

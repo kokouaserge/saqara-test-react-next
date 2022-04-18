@@ -33,10 +33,11 @@ const CardPokemonDetails: FC<PokemonCardProps> = ({
         <div>
           <div
             className={`flex aspect-w-7 aspect-h-full sm:aspect-h-6 w-full h-full`}
+            style={{ margin: 'auto', width: '370px', height: '500px' }}
           >
             <Image
               src={image}
-              className="object-cover w-full h-full "
+              className=" w-full h-full "
               alt={name}
               layout="fill"
             />
@@ -46,48 +47,62 @@ const CardPokemonDetails: FC<PokemonCardProps> = ({
 
       <div className="-mt-4 m-8 text-center">
         <div className="mt-10">
-          <div className="card-section">
-            <p className="card-section-title">HP</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              HP
+            </p>
             <div className=" text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {hp}
             </div>
           </div>
-          <div className="card-section">
-            <p className="card-section-title">XP</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              XP
+            </p>
             <div className=" text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {xp}
             </div>
           </div>
-          <div className="card-section">
-            <p className="card-section-title">Weight</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              Weight
+            </p>
             <div className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {weight / 10} kg
             </div>
           </div>
 
-          <div className="card-section">
-            <p className="card-section-title">Attaque</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              Attaque
+            </p>
             <div className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {attaque} K
             </div>
           </div>
 
-          <div className="card-section">
-            <p className="card-section-title">Attaque Special</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              Attaque Special
+            </p>
             <div className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {special} K
             </div>
           </div>
 
-          <div className="card-section">
-            <p className="card-section-title">Defense</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              Defense
+            </p>
             <div className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white">
               {defense} K
             </div>
           </div>
 
-          <div className="card-section">
-            <p className="card-section-title">Abilities</p>
+          <div className="card-section dark:bg-neutral-900">
+            <p className="card-section-title dark:text-neutral-300 hover:text-black dark:hover:text-white">
+              Abilities
+            </p>
             <ul>
               {abilities.map((ability) => (
                 <li

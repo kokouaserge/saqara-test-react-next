@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 export interface SocialType {
   name: string;
@@ -14,31 +14,31 @@ export interface SocialsListProps {
 
 const socialsDemo: SocialType[] = [
   {
-    name: "Facebook",
-    icon: "lab la-facebook-square",
-    href: "https://www.facebook.com/saqara.france",
+    name: 'Facebook',
+    icon: 'lab la-facebook-square',
+    href: 'https://www.facebook.com/saqara.france'
   },
   {
-    name: "Twitter",
-    icon: "lab la-twitter",
-    href: "https://www.twitter.com/saqara_france",
+    name: 'Twitter',
+    icon: 'lab la-twitter',
+    href: 'https://www.twitter.com/saqara_france'
   },
   {
-    name: "Youtube",
-    icon: "lab la-youtube",
-    href: "https://www.youtube.com/channel/UC2l7U4q2Km9SSN4gMykWo1Q",
+    name: 'Youtube',
+    icon: 'lab la-youtube',
+    href: 'https://www.youtube.com/channel/UC2l7U4q2Km9SSN4gMykWo1Q'
   },
   {
-    name: "Instagram",
-    icon: "lab la-instagram",
-    href: "https://www.instagram.com/saqara_france/",
-  },
+    name: 'Instagram',
+    icon: 'lab la-instagram',
+    href: 'https://www.instagram.com/saqara_france/'
+  }
 ];
 
 const SocialsList: FC<SocialsListProps> = ({
-  className = "space-y-2.5",
-  itemClass = "",
-  socials = socialsDemo,
+  className = 'space-y-2.5',
+  itemClass = '',
+  socials = socialsDemo
 }) => {
   const renderItem = (item: SocialType, index: number) => {
     return (
@@ -54,7 +54,7 @@ const SocialsList: FC<SocialsListProps> = ({
   };
 
   return (
-    <div className={`nc-SocialsList1 ${className}`} data-nc-id="SocialsList1">
+    <div className={`nc-SocialsList ${className}`} data-nc-id="SocialsList">
       {socials.map(renderItem)}
     </div>
   );

@@ -2,6 +2,7 @@ import React, { FC, useState, useMemo } from 'react';
 import SectionGridPokemonBox from 'components/SectionGridPokemonBox/SectionGridPokemonBox';
 import { Default } from 'hooks/type';
 import Pagination from 'shared/Pagination/Pagination';
+import Image from 'next/image';
 
 interface SectionPokemonListProps {
   className?: string;
@@ -60,10 +61,12 @@ const SectionPokemonList: FC<SectionPokemonListProps> = ({
         />
         <div className="p-2 md:p-4">
           <button className="rounded-full focus:outline-none w-10 h-12 md:w-10 md:h-12 flex items-center justify-center">
-            <img
+            <Image
               src="https://github.com/ahampriyanshu/gokemon/raw/master/assets/img/pokeball.png"
               className="pokeball"
               alt="pokeball"
+              width={40}
+              height={40}
             />
           </button>
         </div>
